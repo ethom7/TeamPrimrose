@@ -1,0 +1,21 @@
+{
+  "firstName" : "Evan",
+  "middleName" : "Paul Leslie",
+  "lastName" : "Thompson",
+  "socialSecurityNumber" : 123456789,
+  "dateOfBirth" : 60473588465283,
+  "postalAddress" : {
+    "streetFirst" : "1015 East Elm Street",
+    "streetSecond" : null,
+    "city" : "Olathe",
+    "state" : "Kansas",
+    "zip" : "66061"
+  },
+  "emergencyContact" : {
+    "name" : "Amanda Thompson",
+    "relation" : "spouse",
+    "phoneNumber" : "9132696908",
+    "emailAddress" : null
+  },
+  "phoneNumber" : "9133758787"
+}

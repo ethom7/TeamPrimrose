@@ -1,0 +1,17 @@
+<#import "../layout/defaultLayout.ftl.html" as layout> <@layout.myLayout
+"Login page">
+<form action="/doLogin" method="post">
+	<div>
+		${i18n("label.user.id")}: <span><input type="text" name="userId" /></span>
+	</div>
+	<div>&nbsp;</div>
+	<div>
+		${i18n("label.password")}: <span><input type="password" name="password" /></span>
+	</div>
+	<div>&nbsp;</div>
+	<div>
+		<button type="submit">Login</button>
+	</div>
+</form>
+
+</@layout.myLayout>
