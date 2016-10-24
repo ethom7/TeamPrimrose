@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Company A - Primrose: User</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <script type = "text/javascript"
+        src  = "http://code.jquery.com/jquery-latest.min.js">
+    </script>
+    <script type = "text/javascript">
+      var url = 'http://localhost:8080/userServer/userResources/users'; // updated url address
+
+      function displayPreds(preds) {
+         $('#container').empty(); // clear the old list, if any
+         $.each(preds, function(ind, val) {
+              $('#container').append('<li>' + preds[ind].givenName + '-- ' + preds[ind].userName + " " + preds[ind].emailAddress + '</li>'); } ); // updated append to accomodate the Places class
+      }
+
+
+      // documentation at: http://api.jquery.com/jquery.getjson/
+      function fetch() {
+          $.ajax({
+                   url:         url + "/json",
+                   method:      'GET',
+                   dataType:    'json',
+                   contentType: "application/json; charset=utf-8",
+                   cache:       false,
+                   success:     function(res) { displayPreds(res.users); },
+                   error:       function(res) { console.log(res); },
+                   complete:    function () {
+                                   setTimeout(function() { fetch() }, 5000)}});
+      }
+
+
+     
+
+      $(document).ready(fetch); // invoked after DOM is built and loaded
+    </script>
+
+  </head>
+
+  <body>
+  
+    <h1>Primrose: A CompanyA Webpage</h1>
+    
+    <br/>
+
+
+    <h4>POST input</h4>
+    <form name="newUserInput">
+      <tr><td>givenname: </td><td><input type="text" id="newGivenName"></td></tr><br>
+      <tr><td>Password: </td><td><input type="password" id="newPassword"></td></tr><br><br>
+      <tr><td><input type="submit" value="Submit" id="newsubmitbutton"></td></tr>
+
+
+    </form>
+
+    <h4>PUT input</h4>
+    <form name="updateUserInput">
+      <tr><td>id: </td><td><input type="text" id="updateId"></td></tr><br>
+      <tr><td>Password: </td><td><input type="password" id="updatePassword"></td></tr>
+      <!--  <tr><td>Confirm Password: </td><td><input type="password" id="updateconfirmPassword"></td></tr>  --><br><br>
+      <tr><td><input type="submit" value="Submit" id="updatesubmitbutton"></td></tr>
+
+
+    </form>
+
+    <ul id = 'container'></ul>
+
+    <!-- 
+    <script>
+
+    // , function(data, status) { alert("Data: " + data + "\nStatus: " + status); }
+
+    $('#submitbutton').click(function() { $.post(url + "/create/" + "givenName=" + document.getElementById("givenName").value + "&password=" + document.getElementById("password").value); } );
+
+    </script>
+     -->
+  
+    <script>
+
+    /*  $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: success,
+        dataType: dataType
+        });  */
+
+    $('#newsubmitbutton').click(function() {
+        $.post(url + "/create/",
+          "givenName=" + document.getElementById("newGivenName").value + "&password=" + document.getElementById("newPassword").value 
+        , function(data, status) {
+          alert("Data: " + data + "\nStatus: " + status);
+          });
+      });
+
+     function update() {
+        $.ajax({
+                   url:         url + "/update/",
+                   method:      'PUT',
+                   contentType: "application/json; charset=utf-8",
+                   dataType:    'json',
+                   data:        {id: $('#updateId').val(), password: $('#updatePassword').val(),},
+                   cache:       false,
+                   success:     function(res) { alert(res.user); },
+                   error:       function(res) { console.log(res); },
+                   });
+      }
+
+    $('#updatesubmitbutton').click(function() {
+      update();
+    });
+
+
+    </script>
+
+  </body>
+</html>

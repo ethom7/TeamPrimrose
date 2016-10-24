@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Company A - Primrose: User</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <script type = "text/javascript"
+        src  = "http://code.jquery.com/jquery-latest.min.js">
+    </script>
+    <script type = "text/javascript">
+      var url = 'http://localhost:8080/userServer/userResources/users'; // updated url address
+
+      function displayLogin(user) {
+         $('#container').append('<h2>' + user[ind].userName + ' has been successfully logged in!' + '</h2>'); };
+      }
+
+
+      //$(document).ready(fetch); // invoked after DOM is built and loaded
+    </script>
+
+  </head>
+
+  <body>
+  
+    <h1>Primrose: A CompanyA Webpage</h1>
+    
+    <br/>
+
+
+    <h4>GET input</h4>
+    <form name="newUserInput">
+      <tr><td>givenname: </td><td><input type="text" id="userName"></td></tr><br>
+      <tr><td>Password: </td><td><input type="password" id="password"></td></tr><br><br>
+      <tr><td><input type="submit" value="Submit" id="submitbutton"></td></tr>
+
+
+    </form>
+
+    
+
+    <ul id = 'container'></ul>
+
+    <!-- 
+    <script>
+
+    // , function(data, status) { alert("Data: " + data + "\nStatus: " + status); }
+
+    $('#submitbutton').click(function() { $.post(url + "/create/" + "givenName=" + document.getElementById("givenName").value + "&password=" + document.getElementById("password").value); } );
+
+    </script>
+     -->
+  
+    <script>
+
+    /*  $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: success,
+        dataType: dataType
+        });  */
+
+    // works
+    $('#submitbutton').click(function() {
+        $.post(url + "/doLogin/",
+          "userName=" + document.getElementById("userName").value + "&password=" + document.getElementById("password").value 
+        , function(res) {
+          displayLogin(res.user);
+          });
+      });
+
+    
+
+    </script>
+
+  </body>
+</html>

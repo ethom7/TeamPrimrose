@@ -1,0 +1,50 @@
+Paths
+
+.warname
+
+baseURL= "http://localhost:8080"
+
+User:
+/userServer/userRescources/users
+
+GET
+/xml
+/xml/id:
+/json
+/json/id:
+/plain
+
+
+POST
+/create/@FormParam(givenName), @FormParam(password)
+
+
+PUT
+/update/@FormParam(id), @FormParam(userName), @FormParam(password)
+
+
+DELETE
+/delete/id:
+
+
+
+
+Employee:
+/employeeServer/employeeResources/employees
+
+GET
+/json
+/json/id:
+/plain
+
+
+POST
+/create/@FormParam(firstName), @FormParam(middleName), @FormParam(lastName), @FormParam(socialSecurityNumber), @FormParam(dob)
+
+
+PUT
+/update/@FormParam(firstName), @FormParam(middleName), @FormParam(lastName), @FormParam(socialSecurityNumber), @FormParam(dob)
+
+
+DELETE
+/delete/id:
