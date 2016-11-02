@@ -9,6 +9,7 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Projections;
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.joda.time.DateTime;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.ws.rs.*;
@@ -110,6 +111,39 @@ public class UserRS {
         }
         msg = "Something went wrong.\n";
         return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
+    }
+
+
+    @POST
+    @Produces({MediaType.TEXT_PLAIN})
+    @Path("/userLogin")
+    public Response doLogin(@FormParam("userName") String userName, @FormParam("password") String password) {
+        String msg = "";
+
+        if (userName == null || password == null) {
+            msg = "A required field is missing.\n";
+            return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
+        }
+
+        User user = findUser(userName, password);
+
+        if (user == null) {
+            msg = "Username and/or password do not match.\n";
+            return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
+        }
+        else if (user.isActiveUser() == false) {
+            msg = "User is not active.\n";
+            return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
+        }
+        else {
+
+            DateTime dt = new DateTime();  // for future use to implement authentication expiration.
+
+            msg = "User " + userName + " has been successfully logged in. " + dt.toString() + "\n";
+            return Response.ok(msg, "text/plain").build();
+        }
+
+
     }
 
 
@@ -245,6 +279,44 @@ public class UserRS {
 
         return false;
 
+    }
+
+    private User findUser(String userName, String password) {
+
+        //PublicUser pubUser = null;
+        User user = null;
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        Bson filter = eq("userName", userName);
+        Bson projection = Projections.exclude("_id");
+
+        MongoCursor<Document> itr = collection.find(filter)
+                .projection(projection)
+                .iterator();
+
+        try {
+            while (itr.hasNext()) {
+                Document cur = itr.next();
+                String hashed = cur.getString("password");
+                if (BCrypt.checkpw(password, hashed)) {
+
+                    try {
+                        user = mapper.readValue(cur.toJson(), User.class);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    return user;
+                }
+
+            }
+        } finally {  // always use when iterating with MongoCursor
+            itr.close();  // ensure the cursor is closed in all situations, incase of an exception or break in loop
+        }
+
+        return user;
     }
 
 

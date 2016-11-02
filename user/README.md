@@ -32,6 +32,11 @@
         <td>Creates a new user from the @FormParam with the following fields: int id, String givenName, String password, String passwordVerification. Inserts into the user database collection as a new document. Returns a status code 200 upon success.</td>
     </tr>
     <tr>
+        <td>/userLogin</td>
+            <td>POST</td>
+            <td>Login user from the @FormParam with the following fields: String userName, String password. Returns a status code 200 upon success.</td>
+        </tr>
+    <tr>
         <td>/update</td>
         <td>PUT</td>
         <td>Updates the inventory database collection from the @FormParam that matches upon id. Fields: int id, String givenName, String password, String passwordVerification, String userName, boolean activeUser. Returns a status code 200 upon success.</td>
