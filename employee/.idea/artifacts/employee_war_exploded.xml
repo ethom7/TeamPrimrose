@@ -1,0 +1,26 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="employee:war exploded">
+    <output-path>$PROJECT_DIR$/target/employee</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="employee" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.8.3" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.8.3" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.8.3" />
+          <element id="library" level="project" name="Maven: com.sun.jersey:jersey-core:1.19.2" />
+          <element id="library" level="project" name="Maven: javax.ws.rs:jsr311-api:1.1.1" />
+          <element id="library" level="project" name="Maven: com.sun.jersey:jersey-server:1.19.2" />
+          <element id="library" level="project" name="Maven: com.sun.jersey:jersey-servlet:1.19.2" />
+          <element id="library" level="project" name="Maven: org.mongodb:mongo-java-driver:3.3.0" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/employee/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="employee/web/Web" />
+    </root>
+  </artifact>
+</component>
