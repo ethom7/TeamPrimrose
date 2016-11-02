@@ -60,7 +60,7 @@ public class PostalAddress {
      */
     public PostalAddress buildPostalAddress(String postalAddress, String delimiter) {
         String[] parts = postalAddress.split(delimiter);
-        PostalAddress pa = null;
+        PostalAddress pa = new PostalAddress();
         if (parts.length == 4) {
             pa.setStreet(parts[0]);
             pa.setCity(parts[1]);

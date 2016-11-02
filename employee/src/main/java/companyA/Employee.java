@@ -18,7 +18,7 @@ public class Employee implements Comparable<Employee> {
     private String lastName;
     private String givenName;
     private String socialSecurityNumber;
-    private Date dob;
+    private String dob;
     private PostalAddress postalAddress;
     private String phoneNumber;
     private EmergencyContact emergencyContact;
@@ -91,11 +91,11 @@ public class Employee implements Comparable<Employee> {
     }
 
     @XmlElement
-    public Date getDob() {
+    public String getDob() {
         return dob;
     }
 
-    public void setDob(Date dob) {
+    public void setDob(String dob) {
         this.dob = dob;
     }
 

@@ -30,6 +30,8 @@
     <orderEntry type="library" name="Maven: com.sun.jersey:jersey-server:1.19.2" level="project" />
     <orderEntry type="library" name="Maven: com.sun.jersey:jersey-servlet:1.19.2" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:mongo-java-driver:3.3.0" level="project" />
+    <orderEntry type="library" name="Maven: joda-time:joda-time:2.9.4" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-joda:2.4.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
   </component>
 </module>

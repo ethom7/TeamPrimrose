@@ -50,7 +50,7 @@ public class EmergencyContact {
      */
     public EmergencyContact buildEmergencyContact(String emergencyContact, String delimiter) {
         String[] parts = emergencyContact.split(delimiter);
-        EmergencyContact ec = null;
+        EmergencyContact ec = new EmergencyContact();
         if (parts.length == 3) {
             ec.setContactName(parts[0]);
             ec.setRelation(parts[1]);

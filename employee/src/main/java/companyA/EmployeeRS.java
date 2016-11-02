@@ -4,18 +4,21 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Projections;
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -64,12 +67,18 @@ public class EmployeeRS {
     }
 
 
+    /* Utility method will accept postalAddress as string along with a delimiter and populate a PostalAddress accordingly.
+    buildPostalAddress("123 Street Name;City Name;State Name;Zip Code", ";"); */
+
+    /* Utility method will accept emergencyContact as string along with a delimiter and populate an EmergencyContact accordingly.
+    buildEmergencyContact("This Contact Name;Relationship;Contact Phone number", ";"); */
+
     @POST
     @Produces({MediaType.TEXT_PLAIN})
     @Path("/create")
     public Response create(@FormParam("id") int id, @FormParam("firstName") String firstName,
                            @FormParam("middleName") String middleName, @FormParam("lastName") String lastName,
-                           @FormParam("socialSecurityNumber") String socialSecurityNumber, @FormParam("dob") Date dob,
+                           @FormParam("socialSecurityNumber") String socialSecurityNumber, @FormParam("dob") String dob,
                            @FormParam("postalAddress") String postalAddress, @FormParam("phoneNumber") String phoneNumber,
                            @FormParam("emergencyContact") String emergencyContact, @FormParam("activeEmployee") boolean activeEmployee) {
 
@@ -81,6 +90,8 @@ public class EmployeeRS {
             return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
         }
 
+        LocalDate ld = LocalDate.parse(dob, DateTimeFormat.forPattern("MM/dd/yyyy"));   // will accept the format to convert as 01/01/2016 or 01-01-2016
+
         PostalAddress pa = new PostalAddress();
         EmergencyContact ec = new EmergencyContact();
 
@@ -90,7 +101,7 @@ public class EmployeeRS {
         employee.setMiddleName(middleName);
         employee.setLastName(lastName);
         employee.setSocialSecurityNumber(socialSecurityNumber);
-        employee.setDob(dob);
+        employee.setDob(ld.toString(DateTimeFormat.forPattern("MM/dd/yyyy")));
         employee.setPostalAddress(pa.buildPostalAddress(postalAddress, ";"));
         employee.setPhoneNumber(phoneNumber);
         employee.setEmergencyContact(ec.buildEmergencyContact(emergencyContact, ";"));
@@ -105,7 +116,7 @@ public class EmployeeRS {
                     .append("middleName", middleName)
                     .append("lastName", lastName)
                     .append("socialSecurityNumber", socialSecurityNumber)
-                    .append("dob", dob)
+                    .append("dob", ld.toString(DateTimeFormat.forPattern("MM/dd/yyyy")))
                     .append("postalAddress", new Document("street", employee.getPostalAddress().getStreet()).append("city", employee.getPostalAddress().getCity()).append("state", employee.getPostalAddress().getState()).append("zip", employee.getPostalAddress().getZip()))
                     .append("phoneNumber", phoneNumber)
                     .append("emergencyContact", new Document("contactName", employee.getEmergencyContact().getContactName()).append("relation", employee.getEmergencyContact().getRelation()).append("emergencyPhoneNumber", employee.getEmergencyContact().getEmergencyPhoneNumber()))
@@ -128,7 +139,7 @@ public class EmployeeRS {
     @Path("/update")
     public Response update(@FormParam("id") int id, @FormParam("firstName") String firstName,
                            @FormParam("middleName") String middleName, @FormParam("lastName") String lastName,
-                           @FormParam("socialSecurityNumber") String socialSecurityNumber, @FormParam("dob") Date dob,
+                           @FormParam("socialSecurityNumber") String socialSecurityNumber, @FormParam("dob") String dob,
                            @FormParam("postalAddress") String postalAddress, @FormParam("phoneNumber") String phoneNumber,
                            @FormParam("emergencyContact") String emergencyContact, @FormParam("activeEmployee") boolean activeEmployee) {
 
@@ -149,6 +160,10 @@ public class EmployeeRS {
             return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
         }*/
 
+
+        LocalDate ld = LocalDate.parse(dob, DateTimeFormat.forPattern("MM/dd/yyyy"));   // will accept the format to convert as 01/01/2016 or 01-01-2016
+
+
         PostalAddress pa = new PostalAddress();
         EmergencyContact ec = new EmergencyContact();
 
@@ -158,7 +173,7 @@ public class EmployeeRS {
         employee.setMiddleName(middleName);
         employee.setLastName(lastName);
         employee.setSocialSecurityNumber(socialSecurityNumber);
-        employee.setDob(dob);
+        employee.setDob(ld.toString(DateTimeFormat.forPattern("MM/dd/yyyy")));
         employee.setPostalAddress(pa.buildPostalAddress(postalAddress, ";"));
         employee.setPhoneNumber(phoneNumber);
         employee.setEmergencyContact(ec.buildEmergencyContact(emergencyContact, ";"));
@@ -185,7 +200,7 @@ public class EmployeeRS {
                             .append("middleName", middleName)
                             .append("lastName", lastName)
                             .append("socialSecurityNumber", socialSecurityNumber)
-                            .append("dob", dob)
+                            .append("dob", ld.toString(DateTimeFormat.forPattern("MM/dd/yyyy")))
                             .append("postalAddress", new Document("street", employee.getPostalAddress().getStreet()).append("city", employee.getPostalAddress().getCity()).append("state", employee.getPostalAddress().getState()).append("zip", employee.getPostalAddress().getZip()))
                             .append("phoneNumber", phoneNumber)
                             .append("emergencyContact", new Document("contactName", employee.getEmergencyContact().getContactName()).append("relation", employee.getEmergencyContact().getRelation()).append("emergencyPhoneNumber", employee.getEmergencyContact().getEmergencyPhoneNumber()))
@@ -241,6 +256,7 @@ public class EmployeeRS {
 
         ArrayList<Employee> inventoryList = new ArrayList<Employee>();
         ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JodaModule());
 
         try {
             for (Document cur : all) {
@@ -318,6 +334,21 @@ public class EmployeeRS {
     }
 
 
+    private static LocalDate getDateFromString(String dateString) {
+        try {
+            DateTimeFormatter dtf = DateTimeFormat.forPattern("MM/dd/yyyy");
+            LocalDate df = LocalDate.parse(dateString, dtf);
+
+            return df;
+        } catch (Exception e) {  }
+        try {
+            DateTimeFormatter dtf = DateTimeFormat.forPattern("MM-dd-yyyy");
+            LocalDate df = LocalDate.parse(dateString, dtf);
+            return df;
+        } catch (Exception e) {  }
+
+        return null;
+    }
 
 
 }
