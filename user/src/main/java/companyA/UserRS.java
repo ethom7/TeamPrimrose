@@ -81,7 +81,7 @@ public class UserRS {
             return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
         }
 
-        if (password.equals(verificationPassword)) {
+        if (!password.equals(verificationPassword)) {
             msg = "Entered password fields do not match.\n";
             return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
         }
@@ -98,6 +98,7 @@ public class UserRS {
                     .append("givenName", givenName)
                     .append("userName", user.getUserName())
                     .append("password", user.getPassword())
+                    .append("passwordExpiration", user.getPasswordExpiration())
                     .append("emailAddress", user.getEmailAddress())
                     .append("activeUser", true);
             collection.insertOne(usrDoc);
@@ -117,7 +118,7 @@ public class UserRS {
     @Produces({MediaType.TEXT_PLAIN})
     @Path("/update")
     public Response update(@FormParam("id") int id, @FormParam("userName") String userName,
-                           @FormParam("password") String password,
+                           @FormParam("password") String password, @FormParam("givenName") String givenName,
                            @FormParam("verificationPassword") String verificationPassword, @FormParam("activeUser") boolean activeUser) {
 
 
@@ -137,7 +138,7 @@ public class UserRS {
             return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
         }*/
 
-        if (password.equals(verificationPassword)) {
+        if (!password.equals(verificationPassword)) {
             msg = "Entered password fields do not match.\n";
             return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
         }
@@ -163,13 +164,15 @@ public class UserRS {
 
                 if (cur.getInteger("id").equals(id)) {
 
+
+
                     collection.findOneAndReplace(cur, new Document("id", id)
+                            .append("givenName", givenName)
                             .append("userName", userName)
                             .append("password", user.getPassword())
+                            .append("emailAddress", user.generateEmailAddress(userName))
                             .append("passwordExpiration", user.getPasswordExpiration())
                             .append("activeUser", user.isActiveUser()));
-
-
                     msg = "update has been made.\n";  // update the message string to confirm update made.
                     return Response.ok(msg, "text/plain").build();  // return the response
 
