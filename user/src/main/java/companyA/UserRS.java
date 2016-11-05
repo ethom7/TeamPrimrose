@@ -221,6 +221,86 @@ public class UserRS {
         return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
     }
 
+    // Updates the password of the user.
+    @PUT
+    @Produces({MediaType.TEXT_PLAIN})
+    @Path("/changePassword")
+    public Response updatePassword(@FormParam("userName") String userName,
+                                   @FormParam("currentPassword") String currentPassword,
+                                   @FormParam("newPassword") String newPassword,
+                                   @FormParam("verificationPassword") String verificationPassword) {
+
+
+
+        String msg = null;
+
+        // check empty username
+        if (userName == null) {
+            msg = "A required username is missing.\n";
+            return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
+        }
+
+
+        // check username and current password
+        if (!checkHashedPassword(userName, currentPassword)) {
+            msg = "Username and password do not match.\n";
+            return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
+        }
+
+        // check the new password is entered correctly
+        if (!newPassword.equals(verificationPassword)) {
+            msg = "Entered password fields do not match.\n";
+            return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
+        }
+
+        String hashed = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+        User user = new User();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        Bson filter = eq("userName", userName); // filter by matching id
+        Bson projection = Projections.exclude("_id");  // exclude the object id from the return
+
+        // return an iterable cursor object
+        MongoCursor<Document> itr = collection.find(filter)
+                .projection(projection)
+                .iterator();
+
+        // always use when iterating with MongoCursor
+        try {
+            while (itr.hasNext()) {
+                Document cur = itr.next();
+
+                if (cur.getInteger("userName").equals(userName)) {
+
+                    try {
+                        user = mapper.readValue(cur.toJson(), User.class);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    collection.findOneAndReplace(cur, new Document("id", user.getId())
+                            .append("givenName", user.getGivenName())
+                            .append("userName", userName)
+                            .append("password", hashed)
+                            .append("emailAddress", user.getEmailAddress())
+                            .append("passwordExpiration", user.passwordExpiration())
+                            .append("activeUser", user.isActiveUser()));
+                    msg = "update has been made.\n";  // update the message string to confirm update made.
+                    return Response.ok(msg, "text/plain").build();  // return the response
+
+                }
+
+            }
+        } finally {  // always use when iterating with MongoCursor
+            itr.close();  // ensure the cursor is closed in all situations, incase of an exception or break in loop
+        }
+
+        msg = "Something went wrong. Please try again.";
+        return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
+    }
+
+
     // Delete user from the database collection by matched id
     @DELETE
     @Produces({MediaType.TEXT_PLAIN})
@@ -244,8 +324,9 @@ public class UserRS {
 
 
 
-
-    private boolean checkHashedPassword(String userName, String password) {
+    // Method accepts userName and password input, will return true if password is valid for the user.
+    // Password entry is in plain text.
+    private static boolean checkHashedPassword(String userName, String password) {
         User user = null;
         ObjectMapper mapper = new ObjectMapper();
 
@@ -267,7 +348,6 @@ public class UserRS {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
 
                     return true;
                 }

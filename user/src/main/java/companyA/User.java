@@ -33,7 +33,7 @@ public class User implements Comparable<User> {
         this.userName = generateUserName(givenName);
         this.password = password;
         this.emailAddress = generateEmailAddress(userName);
-
+        this.passwordExpiration = passwordExpiration();
 
     }
 
@@ -105,6 +105,15 @@ public class User implements Comparable<User> {
         ZonedDateTime zdtLater = zdt.plusDays(60);
         Date utilDate = Date.from( zdtLater.toInstant() );
         this.passwordExpiration = utilDate;
+    }
+
+    public Date passwordExpiration() {
+        Instant now = Instant.now();
+        ZoneId zoneId = ZoneId.of("America/Chicago");
+        ZonedDateTime zdt = ZonedDateTime.ofInstant(now, zoneId);
+        ZonedDateTime zdtLater = zdt.plusDays(60);
+        Date utilDate = Date.from( zdtLater.toInstant() );
+        return utilDate;
     }
 
     @XmlElement

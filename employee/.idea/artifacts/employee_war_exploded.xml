@@ -17,6 +17,7 @@
           <element id="library" level="project" name="Maven: org.mongodb:mongo-java-driver:3.3.0" />
           <element id="library" level="project" name="Maven: joda-time:joda-time:2.9.4" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-joda:2.4.0" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.3" />
         </element>
       </element>
       <element id="directory" name="META-INF">
