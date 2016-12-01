@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Edit Employee</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <script type = "text/javascript" src  = "//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type = "text/javascript">
+        var url = 'http://localhost:8080/primroseApplication/employee'; // updated url address
+
+        function displayEmployee(employee) {
+
+            var pa = employee.postalAddress.street + '<br>' + employee.postalAddress.city + ", " + employee.postalAddress.state + " " + employee.postalAddress.zip;
+            var ec = employee.emergencyContact.contactName + '<br>' + employee.emergencyContact.relation + '<br>' + employee.emergencyContact.emergencyPhoneNumber;
+
+
+            $('#container').append('<li>' + employee.id + '</li>' + '<br>');
+            $('#container').append('<li>' + employee.firstName + " " + employee.middleName + " " + employee.lastName + '</li>'+ '<br>');
+            $('#container').append('<li>' + employee.socialSecurityNumber + '</li>'+ '<br>');
+            $('#container').append('<li>' + employee.dob + '</li>'+ '<br>');
+            $('#container').append('<li>' + pa + '</li>'+ '<br>');
+            $('#container').append('<li>' + employee.phoneNumber + '</li>'+ '<br>');
+            $('#container').append('<li>' + ec + '</li>'+ '<br>');
+            $('#container').append('<li>' + employee.hireDate + '</li>'+ '<br>');
+            $('#container').append('<li>' + employee.directReports + '</li>'+ '<br>');
+            $('#container').append('<li>' + employee.activeEmployee + '</li>'+ '<br>');
+        }
+
+        // documentation at: http://api.jquery.com/jquery.getjson/
+        function fetch() {
+
+            // url retrieve will populate from session storage for id
+            $.get( url + "/json/123", function(res) {
+                displayEmployee(res);
+            });
+        }
+
+        $(document).ready(fetch); // invoked after DOM is built and loaded
+
+    </script>
+</head>
+<body>
+    <div id="empDiv">
+        <ul id="container"></ul>
+    </div>
+
+</body>
+</html>

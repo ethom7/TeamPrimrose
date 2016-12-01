@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Company A: Primrose</title>
+        <link rel="stylesheet" href="styles.css">
+
+        <script type = "text/javascript" src  = "//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script type = "text/javascript">
+
+            function go(nextUrl) {
+                window.location.assign(nextUrl);
+            }
+
+            function logout() {
+                // delete session stored timeout and id
+                window.sessionStorage.removeItem("id");
+                window.sessionStorage.removeItem("auth-session");
+
+                // navigate to the sign in page
+                go("/client/")
+
+            }
+
+
+
+        </script>
+
+
+</head>
+<body>
+
+    <div id="head">
+        <h2>Primrose: A CompanyA Webpage</h2>
+        <button type="button" onclick="logout()" id="logout">Logout</button>
+    </div>
+
+
+    <div id="navigationbuttons">
+        <tr><td><button type="button" onclick="go('index/employee/view.html')" id="employee">View Employee Info</button></td></tr><br>
+        <tr><td><button type="button" onclick="go('index/user/view.html')" id="user">View User Info</button></td></tr><br>
+        <tr><td><button type="button" onclick="go('index/inventory/view.html')" id="inventory">Inventory</button></td></tr><br>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

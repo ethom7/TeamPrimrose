@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Employee</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <script type = "text/javascript" src  = "//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type = "text/javascript">
+        var url = 'http://localhost:8080/primroseApplication/user'; // updated url address
+
+        function go(nextUrl) {
+            window.location.assign(nextUrl);
+        }
+
+        function logout() {
+            // delete session stored timeout and id
+            window.sessionStorage.removeItem("id");
+            window.sessionStorage.removeItem("auth-session");
+
+            // navigate to the sign in page
+            go("/client/")
+
+        }
+
+        function displayUser(user) {
+
+            $('#container').append('<li>' + user.id + '</li>' + '<br>');
+            $('#container').append('<li>' + user.givenName + '</li>'+ '<br>');
+            $('#container').append('<li>' + user.userName + '</li>'+ '<br>');
+            $('#container').append('<li>' + user.emailAddress + '</li>'+ '<br>');
+            $('#container').append('<li>' + user.passwordExpiration + '</li>'+ '<br>');
+            $('#container').append('<li>' + user.activeUser + '</li>'+ '<br>');
+        }
+
+        // documentation at: http://api.jquery.com/jquery.getjson/
+        function fetch() {
+
+            var authSess = sessionStorage.getItem("auth-session");
+            var idSess = sessionStorage.getItem("id");
+            // url retrieve will populate from session storage for id
+
+            if (authSess != null) {
+                $.get( url + "/json/" + idSess, function(res) {
+                    displayUser(res);
+                });
+            }
+
+        }
+
+        $(document).ready(fetch); // invoked after DOM is built and loaded
+
+    </script>
+</head>
+<body>
+
+    <div id="head">
+        <h2>Primrose: A CompanyA Webpage</h2>
+        <button type="button" onclick="logout()" id="logout">Logout</button>
+    </div>
+
+
+    <div id="userDiv">
+        <ul id="container"></ul>
+    </div>
+
+    <tr><td><button type="button" onclick="go('/client/landing.html')" id="landing">Return to Landing</button></td></tr><br>
+
+</body>
+</html>

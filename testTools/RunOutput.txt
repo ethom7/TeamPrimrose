@@ -1,0 +1,76 @@
+"C:\Program Files\Java\jdk1.8.0_65\bin\java" -Didea.launcher.port=7533 "-Didea.launcher.bin.path=C:\Program Files (x86)\JetBrains\IntelliJ IDEA 2016.2.5\bin" -Dfile.encoding=UTF-8 -classpath "C:\Program Files\Java\jdk1.8.0_65\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\deploy.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\ext\access-bridge-64.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\ext\cldrdata.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\ext\dnsns.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\ext\jaccess.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\ext\jfxrt.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\ext\localedata.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\ext\nashorn.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\ext\sunec.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\ext\sunjce_provider.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\ext\sunmscapi.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\ext\sunpkcs11.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\ext\zipfs.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\javaws.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\jce.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\jfr.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\jfxswt.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\management-agent.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\plugin.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\resources.jar;C:\Program Files\Java\jdk1.8.0_65\jre\lib\rt.jar;C:\Users\evanpthompson\Desktop\School\Fall2016\testTools\target\classes;C:\Program Files (x86)\JetBrains\IntelliJ IDEA 2016.2.5\lib\idea_rt.jar" com.intellij.rt.execution.application.AppMain companyA.App
+Please select an option:
+1: Create a templated data file
+0: Exit
+1
+Create a templated data file...
+
+Please select a data template:
+1: Create an Employee data file
+2: Create an Inventory data file
+3: Create a User data file
+0: Back
+1
+Create an Employee data file...
+
+Input the number of entries for test file:
+100
+Employee file created.
+
+Please select a data template:
+1: Create an Employee data file
+2: Create an Inventory data file
+3: Create a User data file
+0: Back
+500
+Invalid input
+Please select a data template:
+1: Create an Employee data file
+2: Create an Inventory data file
+3: Create a User data file
+0: Back
+1
+Create an Employee data file...
+
+Input the number of entries for test file:
+500
+Employee file created.
+
+Please select a data template:
+1: Create an Employee data file
+2: Create an Inventory data file
+3: Create a User data file
+0: Back
+1
+Create an Employee data file...
+
+Input the number of entries for test file:
+5000
+Employee file created.
+
+Please select a data template:
+1: Create an Employee data file
+2: Create an Inventory data file
+3: Create a User data file
+0: Back
+1
+Create an Employee data file...
+
+Input the number of entries for test file:
+150000
+Employee file created.
+
+Please select a data template:
+1: Create an Employee data file
+2: Create an Inventory data file
+3: Create a User data file
+0: Back
+0
+
+Please select an option:
+1: Create a templated data file
+0: Exit
+0
+Thanks for using Primrose software, goodbye!
+
+Process finished with exit code 0
