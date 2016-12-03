@@ -1,0 +1,53 @@
+body {
+    background-image: url("index-image.jpg");
+}
+
+#headerbar {
+    height: 15%;
+    width: 105%;
+    margin-top: 0px;
+    margin-left: -1%;
+}
+
+h2 {
+    margin-left: 2%;
+    font-family: Times New Roman;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+center {
+    margin-top: 20%;
+}
+
+.button {
+    background-color: grey;
+    border-radius: 15px;
+    box-shadow: 0 5px black;
+    color: black;
+    display: inline-block;
+    width: 250px;
+    height: 125px;
+    margin: 5px;
+    text-align: center;
+    font-family: Times New Roman;
+    font-size: 24px;
+    font-weight: bold;  
+}
+
+
+
+#logout {
+    float: right;
+    margin-right: 10%;
+}
+
+#toprow {
+    margin-left: 35px;
+}
+
+#bottomrow {
+    margin-left: -80px;
+}
+
+

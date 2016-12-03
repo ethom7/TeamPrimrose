@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Employee</title>
+    <title>User</title>
     <link rel="stylesheet" type="text/css" href="pages.css">
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -29,18 +29,18 @@
 </head>
 <body>
 
-    <div id="head">
-        <h2>primrose</h2>
-        <button type="button" onclick="logout()" id="logout">Logout</button>
-    </div>
-    <center>
-        <form action="employee/edit.html" method="get">
-            <button type="button" class="button" id="edit" onclick="go('employee/edit.html')">edit</button>
-            <button type="button" class="button" id="view" onclick="go('employee/view.html')">view</button>
-        </form>
-    </center>
+<div id="head">
+    <h2>primrose</h2>
+    <button type="button" onclick="logout()" id="logout">Logout</button>
+</div>
+<center>
+    <form action="user/edit.html" method="get">
+        <button type="button" class="button" id="edit" onclick="go('user/edit.html')">edit</button>
+        <button type="button" class="button" id="view" onclick="go('user/view.html')">view</button>
+    </form>
+</center>
 
-    <button type="button" onclick="go('/client/landing.html')" id="landing">Return to Landing</button>
+<button type="button" onclick="go('/client/landing.html')" id="landing">Return to Landing</button>
 
 </body>
 </html>

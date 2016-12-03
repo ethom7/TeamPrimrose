@@ -2,46 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Company A: Primrose</title>
-        <link rel="stylesheet" href="styles.css">
+    <title>primrose</title>
+    <link rel="stylesheet" href="landing.css">
 
-        <script type = "text/javascript" src  = "//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script type = "text/javascript">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type = "text/javascript">
 
-            function go(nextUrl) {
-                window.location.assign(nextUrl);
-            }
+        function go(nextUrl) {
+            window.location.assign(nextUrl);
+        }
 
-            function logout() {
-                // delete session stored timeout and id
-                window.sessionStorage.removeItem("id");
-                window.sessionStorage.removeItem("auth-session");
+        function logout() {
+            // delete session stored timeout and id
+            window.sessionStorage.removeItem("id");
+            window.sessionStorage.removeItem("auth-session");
 
-                // navigate to the sign in page
-                go("/client/")
+            // navigate to the sign in page
+            go("/client/")
 
-            }
+        }
 
 
 
-        </script>
+    </script>
 
 
 </head>
 <body>
 
     <div id="head">
-        <h2>Primrose: A CompanyA Webpage</h2>
+        <h2>primrose</h2>
         <button type="button" onclick="logout()" id="logout">Logout</button>
     </div>
 
 
+    <center>
     <div id="navigationbuttons">
-        <tr><td><button type="button" onclick="go('index/employee/view.html')" id="employee">View Employee Info</button></td></tr><br>
-        <tr><td><button type="button" onclick="go('index/user/view.html')" id="user">View User Info</button></td></tr><br>
-        <tr><td><button type="button" onclick="go('index/inventory/view.html')" id="inventory">Inventory</button></td></tr><br>
+        <button type="button" class="button" onclick="go('index/user.html')" id="employee">user</button>
+        <button type="button" class="button" onclick="go('index/employee.html')" id="user">employee</button><br>
+        <button type="button" class="button" onclick="go('index/manager.html')" id="manager">manager</button>
+        <button type="button" class="button" onclick="go('index/inventory.html')" id="inventory">inventory</button>
     </div>
-
+    </center>
 
 
 

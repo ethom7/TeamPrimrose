@@ -30,7 +30,7 @@
         function fetch() {
 
             // url retrieve will populate from session storage for id
-            $.get( url + "/json/123", function(res) {
+            $.get( url + "/json/", function(res) {
                 displayEmployee(res);
             });
         }
@@ -40,9 +40,14 @@
     </script>
 </head>
 <body>
-    <div id="empDiv">
+    <div id="invDiv">
         <ul id="container"></ul>
     </div>
+
+    <table>
+        <tr><td>Search:<input type="text" id="searchtext"/></td><td></td></tr><br>
+        <tr><td>Field: <select name="select"><option value="item">Item ID</option><option value="id" selected>Item Name</option></select></td><td><button type="submit">Search</button></td></tr><br>
+    </table>
 
 </body>
 </html>
