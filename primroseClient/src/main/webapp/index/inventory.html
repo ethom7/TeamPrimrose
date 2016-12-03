@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Inventory</title>
+  <link rel="stylesheet" type="text/css" href="inventory.css">
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script type = "text/javascript">
+
+
+      function displayInventory(inventory) {
+          $('#container').append('<h2>' + user[ind].userName + ' has been successfully logged in!' + '</h2>');
+      }
+
+    // function to navigate to next page
+    function go(nextUrl) {
+
+      window.location.assign(nextUrl);
+    }
+
+    function logout() {
+      // delete session stored timeout and id
+      window.sessionStorage.removeItem("id");
+      window.sessionStorage.removeItem("auth-session");
+
+      // navigate to the sign in page
+      go("/client/")
+
+    }
+
+
+
+
+  </script>
+
+</head>
+<body>
+
+    <div id="headerbar">
+        <h2>primrose</h2>
+        <button type="button" onclick="logout()" id="logout">Logout</button>
+    </div>
+
+    <center>
+    <table>
+      <tr><td>Starting Index <input type="text" name="items"></td><td>    Count <input type="text" name="items"></td></tr><br>
+      <tr><td><button type="submit"> &lt  Back </button></td><td><button type="submit"> Forward  &gt </button></td></tr><br><br>
+    </table>
+
+    </center>
+
+
+
+  <table class="iTable">
+    <tr>
+      <th>Item ID</th><th>Item Name</th><th>Quantity</th><th>Edit</th>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+    <tr>
+      <td>  </td><td>  </td><td>  </td><td><button type="submit">Edit</button></td>
+    </tr>
+  </table>
+
+</center>
+
+</body>
+</html>

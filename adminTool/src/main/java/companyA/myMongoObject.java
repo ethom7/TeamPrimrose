@@ -1,13 +1,9 @@
 package companyA;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
+import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 
-import com.mongodb.client.MongoCollection;
-
-import companyA.Employee;
+import java.util.ArrayList;
 
 public class myMongoObject {
 

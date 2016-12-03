@@ -1,0 +1,27 @@
+body {
+    background-color: grey;
+}
+.iTable {
+    background-color: #9DD0ED;
+    border-collapse: collapse;
+    color:#000;
+    font-size:18px;
+}
+.iTable th {
+    background-color: grey;
+    color: black;
+    width: 35%;
+}
+.iTable td, .iTable th {
+    padding: 5px;
+    border:0;
+}
+.iTable td {
+    border-bottom: 1px dotted #BDB76B;
+}
+
+
+#logout {
+    float: right;
+    margin-right: 10%;
+}

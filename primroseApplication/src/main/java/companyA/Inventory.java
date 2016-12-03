@@ -12,6 +12,7 @@ public class Inventory implements Comparable<Inventory> {
 
     private int id;
     private Object _id;
+    private String productId;
     private String productNumber;
     private String itemDescription;
     private double itemCost;
@@ -39,6 +40,15 @@ public class Inventory implements Comparable<Inventory> {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @XmlElement
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     @XmlElement
@@ -95,6 +105,7 @@ public class Inventory implements Comparable<Inventory> {
     public String toString() {
         return "Inventory : {" +
                 "id : " + id +
+                ", productId : " + productId +
                 ", productNumber : " + productNumber +
                 ", itemDescription : " + itemDescription +
                 ", itemCost : " + itemCost +

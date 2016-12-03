@@ -1,0 +1,43 @@
+body {
+    background-color: #9DD0ED;
+}
+
+.button#edit {
+    background-color: grey;
+    border-radius: 15px;
+    box-shadow: 0 5px black;
+    color: black;
+    padding: 15px 30px;
+    text-align: center;
+    font-family: Times New Roman;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.button#view {
+    background-color: grey;
+    border-radius: 15px;
+    box-shadow: 0 5px black;
+    color: black;
+    padding: 15px 30px;
+    text-align: center;
+    font-family: Times New Roman;
+    font-weight: bold;
+    display: inline-block;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+}
+th {
+    text-align: left;
+}
+
+#logout {
+    float: right;
+    margin-right: 10%;
+}

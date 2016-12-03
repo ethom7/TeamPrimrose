@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.gte;
+import static com.mongodb.client.model.Filters.lt;
+import static com.mongodb.client.model.Filters.and;
 
 /**
  * Created by evanpthompson on 10/31/2016.
@@ -42,6 +45,38 @@ public class InventoryRS {
     public Response getJson() {
 
         ArrayList<Inventory> invList = toArrayList();
+        return Response.ok(toJson(invList), "application/json").build();
+    }
+
+    @GET
+    @Path("/query")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getJson(@DefaultValue("0") @QueryParam("start") int start,
+                            @DefaultValue("50") @QueryParam("size") int size) {
+
+        Bson projection = Projections.exclude("_id");
+        List<Document> all = collection.find(and(gte("id", start), lt("id", (start+size)))).projection(projection).into(new ArrayList<Document>());
+
+        ArrayList<Inventory> invList = new ArrayList<Inventory>();
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            for (Document cur : all) {
+                Inventory inventory = new Inventory();
+
+                inventory = mapper.readValue(cur.toJson(), Inventory.class);
+                invList.add(inventory);
+            }
+
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         return Response.ok(toJson(invList), "application/json").build();
     }
 

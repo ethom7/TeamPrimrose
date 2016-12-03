@@ -38,6 +38,7 @@ public class App {
 		System.out.println("Please select a function: ");
 		System.out.println("1: Load users from .csv file");
 		System.out.println("2: Set a user as inactive");
+		System.out.println("3: Load inventory from .csv file");
 		System.out.println("0: Exit");
 		try {
 			int choice = input.nextInt();
@@ -72,7 +73,21 @@ public class App {
 				}
 				break;
 			}
-			
+			case 3: {
+				long start = Instant.now().toEpochMilli();
+
+				System.out.println("Loading inventory from .csv file...");
+				loadInventoryCSV();
+
+				long end = Instant.now().toEpochMilli();
+
+				long execution = end - start;
+
+				System.out.println("Execution time in milliseconds: " + execution);
+				System.out.println("Execution time in seconds: " + (execution/1000) + "\n");
+				break;
+			}
+
 			case 0: {
 				System.out.println("Thanks for using Primrose software, goodbye!");
 				System.exit(0);
@@ -110,9 +125,58 @@ public class App {
 		mmO.setEmployeeCollection(employeeCollection);
 		mmO.setUserCollection(userCollection);
 	}
-	
-	// this method does not currently read in the emergency contact info to the user.
-	// Can easily be implemented as was postalAddress.
+
+	private static void loadInventoryCSV() {
+
+		MongoDatabase db = MongoConnector.getInstance().getMongoDatabase();
+
+		MongoCollection<Document> inventoryCollection = db.getCollection("inventory");
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		System.out.println("Please enter the path of the CSV file including the extension .csv:");
+		input.nextLine();
+		String tenK = input.nextLine();  //"src/main/java/companyA/testdataN10K.csv"
+
+		ArrayList<HashMap<String, String>> hm2 = ReadMethods.createListFromCSV(tenK, ",");  //readIn list
+
+		// corrected the listing to dob
+		String[] dataOrder = {"id", "productNumber", "itemDescription", "itemCost", "itemPrice", "itemCount"};	//this is correct data order
+		int nextIDAvail;
+		nextIDAvail = getNextInventoryId(0);
+
+		for (HashMap<String, String> row : hm2) {
+
+			String invString = "";
+
+			Inventory inv = new Inventory();
+
+			inv.setId(nextIDAvail);
+			nextIDAvail++;
+
+			inv.setProductId(row.get(dataOrder[0]));
+			inv.setProductNumber(row.get(dataOrder[1]));
+			inv.setItemDescription(row.get(dataOrder[2]));
+			inv.setItemCost(Double.parseDouble(row.get(dataOrder[3])));
+			inv.setItemPrice(Double.parseDouble(row.get(dataOrder[4])));
+			inv.setItemCount(Integer.parseInt(row.get(dataOrder[5])));
+
+			try {
+				invString = mapper.writeValueAsString(inv);
+				Document invDoc = Document.parse(invString);  //employeeDoc holds all the values of employeeString
+				inventoryCollection.insertOne(invDoc);
+
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		System.out.println("Inventory has been added to the database");
+		System.out.println();
+
+	}
+
 	private static void loadCSV(myMongoObject mmO) {
 		
 		//TODO: prompt the user for the path and extension of their own csv file as String (tenK)
@@ -276,5 +340,27 @@ public class App {
 
         return nextId;
     }
+
+	// method is used to search the database for the highest id number and returns the next available id number.
+	public static int getNextInventoryId(int defaultStartId) {
+
+		int nextId = 0;
+
+		MongoCollection<Document> collection = MongoConnector.getInstance().getMongoCollection("inventory");  // creates connection to db collection specified.
+
+		// Check to see the number of employees in the employee database collection
+		// If collection has any employees in it proceed to retrieve last used id number. Else
+		if (collection.count() > 0) {
+			Document doc = collection.find(exists("id")).sort(descending("id")).first();
+
+			nextId = doc.getInteger("id");
+			nextId++;
+		}
+		else {
+			nextId = defaultStartId;
+		}
+
+		return nextId;
+	}
 	
 }

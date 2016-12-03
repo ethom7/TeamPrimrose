@@ -1,14 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Manager</title>
+  <title>Manager</title>
+  <link rel="stylesheet" type="text/css" href="pages.css">
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script type = "text/javascript">
+
+    // function to navigate to next page
+    function go(nextUrl) {
+
+      window.location.assign(nextUrl);
+    }
+
+    function logout() {
+      // delete session stored timeout and id
+      window.sessionStorage.removeItem("id");
+      window.sessionStorage.removeItem("auth-session");
+
+      // navigate to the sign in page
+      go("/client/")
+
+    }
+
+  </script>
+
+
 </head>
 <body>
 
-<form action="manager/edit.html" method="get">
-  <button type="submit" >Edit</button>
-  <button type="submit" formaction="manager/view.html">View</button>
-</form>
+<div id="head">
+  <h2>primrose</h2>
+  <button type="button" onclick="logout()" id="logout">Logout</button>
+</div>
+<center>
+  <form action="manager/edit.html" method="get">
+    <button type="button" class="button" id="edit" onclick="go('manager/edit.html')">edit</button>
+    <button type="button" class="button" id="view" onclick="go('manager/view.html')">view</button>
+  </form>
+</center>
+
+<button type="button" onclick="go('/client/landing.html')" id="landing">Return to Landing</button>
 
 </body>
 </html>
