@@ -157,13 +157,16 @@ public class EmployeeRS {
 
     // Updates the employee by id number. Update one to all available fields.
     @PUT
-    @Produces({MediaType.TEXT_PLAIN})
+    @Produces({MediaType.APPLICATION_JSON})
     @Path("/update")
     public Response update(@FormParam("id") int id, @FormParam("firstName") String firstName,
                            @FormParam("middleName") String middleName, @FormParam("lastName") String lastName,
                            @FormParam("socialSecurityNumber") String socialSecurityNumber,
-                           @FormParam("postalAddress") String postalAddress, @FormParam("phoneNumber") String phoneNumber,
-                           @FormParam("emergencyContact") String emergencyContact, @FormParam("activeEmployee") boolean activeEmployee) {
+                           @FormParam("street") String street, @FormParam("city") String city, @FormParam("state") String state,
+                           @FormParam("zip") String zip, @FormParam("phoneNumber") String phoneNumber,
+                           @FormParam("contactName") String contactName, @FormParam("relation") String relation,
+                           @FormParam("emergencyPhoneNumber") String emergencyPhoneNumber,
+                           @FormParam("activeEmployee") boolean activeEmployee) {
 
 
 
@@ -172,7 +175,7 @@ public class EmployeeRS {
         String msg = null;
         if (id == 0) {
             msg = "A required id is missing.\n";
-            return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
+            return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.APPLICATION_JSON).build();
         }
 
         Bson filter = eq("id", id); // filter by matching id
@@ -215,14 +218,21 @@ public class EmployeeRS {
                         if (socialSecurityNumber != null) {
                             employee.setSocialSecurityNumber(socialSecurityNumber);
                         }
-                        if (postalAddress != null) {
-                            employee.setPostalAddress(pa.buildPostalAddress(postalAddress, ";"));
+                        if (street != null && city != null && state != null && zip != null) {
+                            pa.setStreet(street);
+                            pa.setCity(city);
+                            pa.setState(state);
+                            pa.setZip(zip);
+                            employee.setPostalAddress(pa);
                         }
                         if (phoneNumber != null) {
                             employee.setPhoneNumber(phoneNumber);
                         }
-                        if (emergencyContact != null) {
-                            employee.setEmergencyContact(ec.buildEmergencyContact(emergencyContact, ";"));
+                        if (contactName != null && relation != null && emergencyPhoneNumber != null) {
+                            ec.setContactName(contactName);
+                            ec.setRelation(relation);
+                            ec.setEmergencyPhoneNumber(emergencyPhoneNumber);
+                            employee.setEmergencyContact(ec);
                         }
                         if (activeEmployee != false) {
                             employee.setActiveEmployee(activeEmployee);
@@ -252,7 +262,8 @@ public class EmployeeRS {
         }
 
         msg = "Something went wrong. Please try again.";
-        return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
+        return Response.status(Response.Status.OK).entity(msg).type(MediaType.APPLICATION_JSON).build();  // return the response
+
     }
 
 

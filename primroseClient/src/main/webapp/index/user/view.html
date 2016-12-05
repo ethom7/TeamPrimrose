@@ -5,7 +5,7 @@
 
     <link rel="stylesheet" href="styles.css">
 
-    <script type = "text/javascript" src  = "//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type = "text/javascript" src  = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type = "text/javascript">
         var url = 'http://localhost:8080/primroseApplication/user'; // updated url address
 
@@ -25,12 +25,14 @@
 
         function displayUser(user) {
 
-            $('#container').append('<li>' + user.id + '</li>' + '<br>');
-            $('#container').append('<li>' + user.givenName + '</li>'+ '<br>');
-            $('#container').append('<li>' + user.userName + '</li>'+ '<br>');
-            $('#container').append('<li>' + user.emailAddress + '</li>'+ '<br>');
-            $('#container').append('<li>' + user.passwordExpiration + '</li>'+ '<br>');
-            $('#container').append('<li>' + user.activeUser + '</li>'+ '<br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Employee ID: ' +  '</strong></td><td>' + user.id + '</td></tr>' + '<br><br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Name: ' +'</strong></td><td>' + user.givenName + '</td></tr>'+ '<br><br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Username: ' +'</strong></td><td>' + user.userName + '</td></tr>'+ '<br><br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Email Address: ' +'</strong></td><td>' + user.emailAddress + '</td></tr>'+ '<br><br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Password Expiration: ' +'</strong></td><td>' + user.passwordExpiration + '</td></tr>'+ '<br><br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Active User: ' +'</strong></td><td>' + user.activeUser + '</td></tr>'+ '<br><br>');
+
+
         }
 
         // documentation at: http://api.jquery.com/jquery.getjson/
@@ -60,8 +62,8 @@
     </div>
 
 
-    <div id="userDiv">
-        <ul id="container"></ul>
+    <div id="container">
+
     </div>
 
     <tr><td><button type="button" onclick="go('/client/landing.html')" id="landing">Return to Landing</button></td></tr><br>

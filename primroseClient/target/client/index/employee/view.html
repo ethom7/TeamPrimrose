@@ -29,16 +29,16 @@
             var ec = employee.emergencyContact.contactName + '<br>' + employee.emergencyContact.relation + '<br>' + employee.emergencyContact.emergencyPhoneNumber;
 
 
-            $('#container').append('<li>' + employee.id + '</li>' + '<br>');
-            $('#container').append('<li>' + employee.firstName + " " + employee.middleName + " " + employee.lastName + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.socialSecurityNumber + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.dob + '</li>'+ '<br>');
-            $('#container').append('<li>' + pa + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.phoneNumber + '</li>'+ '<br>');
-            $('#container').append('<li>' + ec + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.hireDate + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.directReports + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.activeEmployee + '</li>'+ '<br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Employee ID: ' +  '</strong></td><td>' + employee.id + '</td></tr>' + '<br><br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Name: ' +'</strong></td><td>' + employee.firstName + " " + employee.middleName + " " + employee.lastName + '</td></tr>'+ '<br><br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Social Security Number/Tax ID:      ' +'</strong></td><td>' + employee.socialSecurityNumber + '</td></tr>'+ '<br><br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Date of Birth: ' +'</strong></td><td>' + employee.dob + '</td></tr>'+ '<br><br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Postal Address: ' +'</strong></td><td>' + pa + '</td></tr>'+ '<br><br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Phone Number: ' +'</strong></td><td>' + employee.phoneNumber + '</td></tr>'+ '<br><br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Emergency Contact: ' +'</strong></td><td>' + ec + '</td></tr>'+ '<br><br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Hire Date: ' +'</strong></td><td>' + employee.hireDate + '</td></tr>'+ '<br><br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Direct Reports: ' +'</strong></td><td>' + employee.directReports + '</td></tr>'+ '<br><br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Active Employee: ' +'</strong></td><td>' + employee.activeEmployee + '</td></tr>'+ '<br><br>');
         }
 
         // documentation at: http://api.jquery.com/jquery.getjson/
@@ -67,8 +67,8 @@
         <button type="button" onclick="logout()" id="logout">Logout</button>
     </div>
 
-    <div id="empDiv">
-        <ul id="container"></ul>
+    <div id="container">
+
     </div>
 
     <tr><td><button type="button" onclick="go('/client/landing.html')" id="landing">Return to Landing</button></td></tr><br>

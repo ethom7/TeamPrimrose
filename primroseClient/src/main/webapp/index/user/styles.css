@@ -1,21 +1,31 @@
 body {
     margin-top: 2%;
     margin-left: 2%;
+    background-color: #9DD0ED;
 }
 
 h2 {
     float: left;
 }
 
-#userDiv {
+#container {
     clear: left;
+}
+
+tr {
+    margin-bottom: 15px;
+}
+
+td {
+    margin-left: 15px;
+    padding-left: 15px;
 }
 
 #logout {
     float: right;
+    margin-right: 10%;
 }
 
-ul {
-    list-style-type: none;
+#landing {
+    margin-bottom: 10%;
 }
-

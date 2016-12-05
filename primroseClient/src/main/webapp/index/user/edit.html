@@ -4,33 +4,54 @@
 <title>Edit Employee</title>
     <link rel="stylesheet" href="styles.css">
 
-    <script type = "text/javascript" src  = "//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type = "text/javascript" src  = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type = "text/javascript">
         var url = 'http://localhost:8080/primroseApplication/user'; // updated url address
+
+        function go(nextUrl) {
+            window.location.assign(nextUrl);
+        }
+
+        function logout() {
+            // delete session stored timeout and id
+            window.sessionStorage.removeItem("id");
+            window.sessionStorage.removeItem("auth-session");
+
+            // navigate to the sign in page
+            go("/client/")
+
+        }
 
         function displayUser(user) {
 
 
 
-            $('#container').append('<li>' + employee.id + '</li>' + '<br>');
-            $('#container').append('<li>' + employee.firstName + " " + employee.middleName + " " + employee.lastName + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.socialSecurityNumber + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.dob + '</li>'+ '<br>');
-            $('#container').append('<li>' + pa + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.phoneNumber + '</li>'+ '<br>');
-            $('#container').append('<li>' + ec + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.hireDate + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.directReports + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.activeEmployee + '</li>'+ '<br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Employee ID: ' +  '</strong></td><td>' + user.id + '</td></tr>' + '<br><br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Name: ' +'</strong></td><td>' + user.givenName + '</td></tr>'+ '<br><br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Username: ' +'</strong></td><td>' + user.userName + '</td></tr>'+ '<br><br>');
+            //$('#container').append('<tr><td>' + '<strong>' + 'Email Address: ' +'</strong></td><td>' + user.emailAddress + '</td></tr>'+ '<br><br>');
+            $('#container').append('<tr><td>' + '<strong>' + 'Password Expiration: ' +'</strong></td><td>' + user.passwordExpiration + '</td></tr>'+ '<br><br>');
+            //$('#container').append('<tr><td>' + '<strong>' + 'Active User: ' +'</strong></td><td>' + user.activeUser + '</td></tr>'+ '<br><br>');
+            $('#id').val(sessionStorage.getItem("id"));
+            $('#userName').val(user.userName);
         }
 
+
+
+        // documentation at: http://api.jquery.com/jquery.getjson/
         // documentation at: http://api.jquery.com/jquery.getjson/
         function fetch() {
 
+            var authSess = sessionStorage.getItem("auth-session");
+            var idSess = sessionStorage.getItem("id");
             // url retrieve will populate from session storage for id
-            $.get( url + "/json/123", function(res) {
-                displayEmployee(res);
-            });
+
+            if (authSess != null) {
+                $.get( url + "/json/" + idSess, function(res) {
+                    displayUser(res);
+                });
+            }
+
         }
 
         $(document).ready(fetch); // invoked after DOM is built and loaded
@@ -38,9 +59,74 @@
     </script>
 </head>
 <body>
-    <div id="empDiv">
-        <ul id="container"></ul>
+
+
+
+
+    <div id="head">
+        <h2>Primrose: A CompanyA Webpage</h2>
+        <button type="button" onclick="logout()" id="logout">Logout</button>
     </div>
+
+
+    <div id="container">
+
+    </div>
+    <div id="update">
+        <table>
+        <form id="userupdate">
+
+            <tr><td>ID: </td><td><input type="text" id="id" name="id" readonly></td></tr><br>
+            <tr><td>Username: </td><td><input type="text" id="userName" name="userName" readonly></td></tr><br><br>
+            <tr><td>Current Password: </td><td><input type="password" id="currentPassword" name="currentPassword"></td></tr><br>
+            <tr><td>Password: </td><td><input type="text" id="password" name="password"></td></tr><br><br>
+            <tr><td>Verify Password: </td><td><input type="text" id="verificationPassword" name="verificationPassword"></td></tr><br>
+            <tr><td><input type="button" value="Clear" id="clearbutton" onclick="clearform()"></td><td><input type="submit" value="Submit" id="submitbutton"></td></tr>
+
+
+        </form>
+        </table>
+    </div>
+
+    <script>
+
+        function clearform() {
+            $('#password').val("");
+            $('#currentPassword').val("");
+            $('#verificationPassword').val("");
+        }
+
+        function success() {
+            alert("update is successful");
+        }
+
+        // post call to send update data to server
+        (function($){
+            function processForm( e ){
+                $.ajax({
+                    url: url + '/update',
+                    dataType: 'json',
+                    type: 'put',
+                    contentType: 'application/x-www-form-urlencoded',
+                    data: $(this).serialize(),
+                    success: function( data, textStatus, jQxhr ){
+
+                    },
+                    error: function( jqXhr, textStatus, errorThrown ){
+                        console.log( errorThrown );
+                    }
+                });
+
+                e.preventDefault();
+            }
+
+            $('#userupdate').submit( processForm );
+        })(jQuery);
+
+
+    </script>
+
+    <tr><td><button type="button" onclick="go('/client/landing.html')" id="landing">Return to Landing</button></td></tr><br>
 
 </body>
 </html>

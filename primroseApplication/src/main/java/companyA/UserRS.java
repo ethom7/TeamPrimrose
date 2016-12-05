@@ -236,7 +236,7 @@ public class UserRS {
     // Updates the user by id number. Allows the password or activeUser to be updated.
     // Username only required for password update.
     @PUT
-    @Produces({MediaType.TEXT_PLAIN})
+    @Produces({MediaType.APPLICATION_JSON})
     @Path("/update")
     public Response update(@FormParam("id") int id, @FormParam("userName") String userName,
                            @FormParam("password") String password, @FormParam("currentPassword") String currentPassword,
@@ -247,7 +247,7 @@ public class UserRS {
         String msg = null;
         if (id == 0) {
             msg = "A required id is missing.\n";
-            return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
+            return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.APPLICATION_JSON).build();
         }
 
         Bson filter = eq("id", id); // filter by matching id
@@ -279,27 +279,30 @@ public class UserRS {
                             // Verify user prior to changes being made
                             if (!checkHashedPassword(userName, currentPassword)) {
                                 msg = "Entered username and password do not match for user.\n";
-                                return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
+                                return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.APPLICATION_JSON).build();
                             }
                             if (!password.equals(verificationPassword)) {
                                 msg = "Entered password fields do not match.\n";
-                                return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
+                                return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.APPLICATION_JSON).build();
                             }
 
                             String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
                             user.setPassword(hashed);
                             user.setPasswordExpiration(user.passwordExpiration());
                         }
-                        if (activeUser != user.isActiveUser()) {
-                            user.setActiveUser(activeUser);
-                        }
+
+                        //if (activeUser != user.isActiveUser()) {
+                         //   user.setActiveUser(activeUser);
+                        //}
 
                         String usrString = mapper.writeValueAsString(user);
                         Document usrDoc = Document.parse(usrString);
 
                         collection.findOneAndReplace(filter, usrDoc);
                         msg = "update has been made.\n";  // update the message string to confirm update made.
-                        return Response.ok(msg, "text/plain").build();  // return the response
+
+
+                        return Response.status(Response.Status.OK).entity(msg).type(MediaType.APPLICATION_JSON).build();  // return the response
 
 
                     } catch (IOException e) {
@@ -315,7 +318,7 @@ public class UserRS {
         }
 
         msg = "Something went wrong. Please try again.";
-        return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
+        return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.APPLICATION_JSON).build();
     }
 
 
