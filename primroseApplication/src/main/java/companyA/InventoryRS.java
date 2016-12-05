@@ -48,6 +48,137 @@ public class InventoryRS {
         return Response.ok(toJson(invList), "application/json").build();
     }
 
+    /*  Get methods for specific inventory search queries  */
+    @GET
+    @Path("/prodIdSearch/{productId}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response pidSearch(@PathParam("productId") String productId) {
+
+        // if productId is populated, search by
+        if (productId != null) {
+            Bson filter = eq("productId", productId); // filter by matching id
+            Bson projection = Projections.exclude("_id");  // exclude the object id from the return
+
+            // return an iterable cursor object
+            MongoCursor<Document> itr = collection.find(filter)
+                    .iterator();
+
+            ObjectMapper mapper = new ObjectMapper();
+
+            // always use when iterating with MongoCursor
+            try {
+
+                while (itr.hasNext()) {
+                    Document cur = itr.next();
+
+                    if (cur.getString("productId").equals(productId)) {
+
+                        return Response.ok(cur.toJson(), "application/json").build();  // return the response
+
+                    }
+
+                }
+            } finally {  // always use when iterating with MongoCursor
+                itr.close();  // ensure the cursor is closed in all situations, incase of an exception or break in loop
+            }
+
+            String msg = "Invalid field.";
+
+            return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.APPLICATION_JSON).build();
+        }
+        String msg = "Invalid field.";
+
+        return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.APPLICATION_JSON).build();
+    }
+
+
+    @GET
+    @Path("/prodNumberSearch/{productNumber}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response pnumsearch(@PathParam("productNumber") String productNumber) {
+
+        // if productNumber is populated, search by
+        if (productNumber != null) {
+            Bson filter = eq("productNumber", productNumber); // filter by matching id
+            Bson projection = Projections.exclude("_id");  // exclude the object id from the return
+
+            // return an iterable cursor object
+            MongoCursor<Document> itr = collection.find(filter)
+                    .iterator();
+
+            ObjectMapper mapper = new ObjectMapper();
+
+            // always use when iterating with MongoCursor
+            try {
+
+                while (itr.hasNext()) {
+                    Document cur = itr.next();
+
+                    if (cur.getString("productNumber").equals(productNumber)) {
+
+                        return Response.ok(cur.toJson(), "application/json").build();  // return the response
+
+                    }
+
+                }
+            } finally {  // always use when iterating with MongoCursor
+                itr.close();  // ensure the cursor is closed in all situations, incase of an exception or break in loop
+            }
+
+
+        }
+
+        String msg = "Invalid field.";
+
+        return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.APPLICATION_JSON).build();
+    }
+
+
+    @GET
+    @Path("/idSearch/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response search(@PathParam("id") int id) {
+
+        // if id is populated other than empty, search by id
+        if (id != -1) {
+            Bson filter = eq("id", id); // filter by matching id
+            Bson projection = Projections.exclude("_id");  // exclude the object id from the return
+
+            // return an iterable cursor object
+            MongoCursor<Document> itr = collection.find(filter)
+                    .iterator();
+
+            ObjectMapper mapper = new ObjectMapper();
+
+            // always use when iterating with MongoCursor
+            try {
+
+                while (itr.hasNext()) {
+                    Document cur = itr.next();
+
+                    if (cur.getInteger("id").equals(id)) {
+
+                        return Response.ok(cur.toJson(), "application/json").build();  // return the response
+
+                    }
+
+                }
+            } finally {  // always use when iterating with MongoCursor
+                itr.close();  // ensure the cursor is closed in all situations, incase of an exception or break in loop
+            }
+
+            String msg = "Invalid field.";
+
+            return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.APPLICATION_JSON).build();
+        }
+
+
+        String msg = "Invalid field.";
+
+        return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.APPLICATION_JSON).build();
+
+    }
+
     @GET
     @Path("/query")
     @Produces({MediaType.APPLICATION_JSON})

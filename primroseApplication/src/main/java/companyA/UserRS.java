@@ -216,6 +216,7 @@ public class UserRS {
 
             String output = "User logged in successfully <a href=\"http://192.168.1.211:8080/primroseApplication/user/" + user.getId() + "\">" + user.getId() + "</a>";
 
+            // update uri for service address for client when moving to a new network, ip and port
             URI location = URI.create("http://192.168.1.211:8080/primroseApplication/user/" + user.getId());
 
             msg = "User " + userName + " has been successfully logged in. " + dt.toString() + "\n" + "Id " + String.format("%d", user.getId()) + "\n";

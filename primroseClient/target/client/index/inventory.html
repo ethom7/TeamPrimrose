@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
   <title>Inventory</title>
   <link rel="stylesheet" type="text/css" href="inventory.css">
 
@@ -108,8 +109,9 @@
 
     <center>
     <table>
-      <tr><td>Starting Index </td><td><input type="text" name="items" id="index" onclick="getInventory()"></td><td>    Size </td><td><input type="text" name="items" id="stride" onclick="getInventory()"></td></tr><br>
-      <tr><td></td><td><button type="button" onclick="getInventory('minus')"> &lt  Back </button></td><td></td><td><button type="button" onclick="getInventory('plus')"> Forward  &gt </button></td></tr><br><br>
+        <tr><td>Starting Index </td><td><input type="text" name="items" id="index" onclick="getInventory()"></td><td>    Size </td><td><input type="text" name="items" id="stride" onclick="getInventory()"></td></tr><br>
+        <tr><td></td><td><button type="button" onclick="getInventory('minus')"> &lt  Back </button></td><td></td><td><button type="button" onclick="getInventory('plus')"> Forward  &gt </button></td></tr><br><br>
+        <tr><td></td><td><button type="button" onclick="go('inventory/edit.html')"> Add/Edit Item </button></td></tr><br><br>
     </table>
 
     </center>

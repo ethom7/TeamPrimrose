@@ -1,53 +1,123 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Edit Employee</title>
+    <meta charset="utf-8">
+<title>Search/Add/Edit Inventory</title>
     <link rel="stylesheet" href="styles.css">
 
-    <script type = "text/javascript" src  = "//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type = "text/javascript" src  = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type = "text/javascript">
-        var url = 'http://localhost:8080/primroseApplication/employee'; // updated url address
+        var url = 'http://localhost:8080/primroseApplication/inventory'; // updated url address
 
-        function displayEmployee(employee) {
-
-            var pa = employee.postalAddress.street + '<br>' + employee.postalAddress.city + ", " + employee.postalAddress.state + " " + employee.postalAddress.zip;
-            var ec = employee.emergencyContact.contactName + '<br>' + employee.emergencyContact.relation + '<br>' + employee.emergencyContact.emergencyPhoneNumber;
-
-
-            $('#container').append('<li>' + employee.id + '</li>' + '<br>');
-            $('#container').append('<li>' + employee.firstName + " " + employee.middleName + " " + employee.lastName + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.socialSecurityNumber + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.dob + '</li>'+ '<br>');
-            $('#container').append('<li>' + pa + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.phoneNumber + '</li>'+ '<br>');
-            $('#container').append('<li>' + ec + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.hireDate + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.directReports + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.activeEmployee + '</li>'+ '<br>');
+        function go(nextUrl) {
+            window.location.assign(nextUrl);
         }
 
-        // documentation at: http://api.jquery.com/jquery.getjson/
-        function fetch() {
+        function logout() {
+            // delete session stored timeout and id
+            window.sessionStorage.removeItem("id");
+            window.sessionStorage.removeItem("auth-session");
 
-            // url retrieve will populate from session storage for id
-            $.get( url + "/json/", function(res) {
-                displayEmployee(res);
-            });
+            // navigate to the sign in page
+            go("/client/")
+
         }
 
-        $(document).ready(fetch); // invoked after DOM is built and loaded
+
+
+        function displayInventory(inventory) {
+
+            $('#itemview').append('<tr><td><strong>ID: </strong>' + inventory.id +
+                    '</td></tr><tr><td><strong>Product ID: </strong>' + inventory.productId +
+                    '</td></tr><tr><td><strong>Product Number: </strong>' + inventory.productNumber +
+                    '</td></tr><tr><td><strong>Product Description: </strong>' + inventory.itemDescription +
+                    '</td></tr><tr><td><strong>Item Cost: </strong>$' + inventory.itemCost +
+                    '</td></tr><tr><td><strong>Item Selling Price: </strong>$' + inventory.itemPrice +
+                    '</td></tr><tr><td><strong>Item Count: </strong>' + inventory.itemCount +
+                    '</td></tr><tr><td><button type="button" id="editbutton" onclick="displayInventoryEdit(inventory)">Edit</button>' +
+                    '<td><button type="button" id="addbutton" onclick="displayInventoryAdd(inventory)">Add</button></td></td></tr>');
+
+        }
+
+        //$(document).ready(); // invoked after DOM is built and loaded
 
     </script>
 </head>
 <body>
-    <div id="invDiv">
-        <ul id="container"></ul>
+
+    <div id="headerbar">
+        <h2>primrose</h2>
+        <button type="button" onclick="logout()" id="logout">Logout</button>
     </div>
 
+
     <table>
+        <form id="searchform">
         <tr><td>Search:<input type="text" id="searchtext"/></td><td></td></tr><br>
-        <tr><td>Field: <select name="select"><option value="item">Item ID</option><option value="id" selected>Item Name</option></select></td><td><button type="submit">Search</button></td></tr><br>
+        <tr><td>Field:
+            <select name="queryfield">
+                <option value="id">Item ID</option>
+                <option value="name" selected>Item Name</option>
+                <option value="number" selected>Product Number</option>
+            </select></td>
+            <td><button type="button" id="submitbutton" onclick="clickIt()">Search</button></td></tr><br>
+        </form>
     </table>
+
+    <div>
+        <table  id="itemview">
+
+        </table>
+    </div>
+
+    <div id="itemedit">
+
+    </div>
+
+    <script>
+
+        // documentation at: http://api.jquery.com/jquery.getjson/
+
+
+
+    function clickIt() {
+        $('#submitbutton').click(function() {
+            $.get( url + '/idSearch/' + $('#searchtext').val(), function( data ) {
+                displayInventory( data );
+            });
+            //if ($('#queryfield').val() == "id") {
+
+
+            }
+            /*else if ($('#queryfield').val() == "name") {
+
+                $.get( url + '/prodIdSearch/' + $('#searchtext').val(), function( data ) {
+                    displayInventory( data );
+                });
+
+            }
+            else if ($('#queryfield').val() == "number") {
+
+                $.get( url + '/prodNumberSearch/' + $('#searchtext').val(), function( data ) {
+                    displayInventory( data );
+                });
+
+            }
+            */
+
+
+        });
+    }
+
+
+        //function displayInventoryEdit(inventory) {  }
+
+        //function displayInventoryAdd(inventory) {  }
+
+
+    </script>
+
+    <tr><td><button type="button" onclick="go('/client/landing.html')" id="landing">Return to Landing</button></td></tr><br>
 
 </body>
 </html>
