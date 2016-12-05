@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-<title>Search/Add/Edit Inventory</title>
+    <title>Search Inventory</title>
     <link rel="stylesheet" href="styles.css">
 
     <script type = "text/javascript" src  = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -23,19 +23,130 @@
 
         }
 
+        function clickIt(entry) {
+
+
+
+            // run the appropriate query based on radio selection
+
+             if (entry == "id") {
+                var address = url + '/idSearch/' + $('#searchtext').val();
+                $.get(address, function (data) {
+                    displayInventory(data);
+
+                });
+
+             }
+
+             else if (entry == "pid") {
+                var address = url + '/prodIdSearch/' + $('#searchtext').val();
+                $.get( url + '/prodIdSearch/' + $('#searchtext').val(), function( data ) {
+                    displayInventory( data );
+                });
+
+             }
+             else if (entry == "pnum") {
+                var address = url + '/prodNumberSearch/' + $('#searchtext').val();
+                $.get( url + '/prodNumberSearch/' + $('#searchtext').val(), function( data ) {
+                    displayInventory( data );
+                });
+
+             }
+
+
+        }
+
+        function editIt() {
+
+            var entry = document.getElementsByName("queryfield").value;
+
+            // run the appropriate query based on radio selection
+
+            if (entry == "id") {
+                var address = url + '/idSearch/' + $('#searchtext').val();
+                $.get(address, function (data) {
+                    displayInventoryEdit(data);
+
+                });
+
+            }
+
+            else if (entry == "pid") {
+                var address = url + '/prodIdSearch/' + $('#searchtext').val();
+                $.get( url + '/prodIdSearch/' + $('#searchtext').val(), function( data ) {
+                    displayInventoryEdit( data );
+                });
+
+            }
+            else if (entry == "pnum") {
+                var address = url + '/prodNumberSearch/' + $('#searchtext').val();
+                $.get( url + '/prodNumberSearch/' + $('#searchtext').val(), function( data ) {
+                    displayInventoryEdit( data );
+                });
+
+            }
+
+
+        }
+
 
 
         function displayInventory(inventory) {
 
-            $('#itemview').append('<tr><td><strong>ID: </strong>' + inventory.id +
-                    '</td></tr><tr><td><strong>Product ID: </strong>' + inventory.productId +
-                    '</td></tr><tr><td><strong>Product Number: </strong>' + inventory.productNumber +
-                    '</td></tr><tr><td><strong>Product Description: </strong>' + inventory.itemDescription +
-                    '</td></tr><tr><td><strong>Item Cost: </strong>$' + inventory.itemCost +
-                    '</td></tr><tr><td><strong>Item Selling Price: </strong>$' + inventory.itemPrice +
-                    '</td></tr><tr><td><strong>Item Count: </strong>' + inventory.itemCount +
-                    '</td></tr><tr><td><button type="button" id="editbutton" onclick="displayInventoryEdit(inventory)">Edit</button>' +
-                    '<td><button type="button" id="addbutton" onclick="displayInventoryAdd(inventory)">Add</button></td></td></tr>');
+            $('#itemview').empty();  // clear previous listings
+
+            // populate the item view table
+            $('#itemview').append('<tr><td><strong>ID: </strong></td><td>' + inventory.id +
+                    '</td></tr><tr><td><strong>Product ID: </strong></td><td>' + inventory.productId +
+                    '</td></tr><tr><td><strong>Product Number: </strong></td><td>' + inventory.productNumber +
+                    '</td></tr><tr><td><strong>Product Description: </strong></td><td>' + inventory.itemDescription +
+                    '</td></tr><tr><td><strong>Item Cost: </strong></td><td>$' + inventory.itemCost +
+                    '</td></tr><tr><td><strong>Item Selling Price: </strong></td><td>$' + inventory.itemPrice +
+                    '</td></tr><tr><td><strong>Item Count: </strong></td><td>' + inventory.itemCount +
+                    '</td></tr>');
+
+                    // removed edit from functionality
+
+        }
+
+        function displayInventoryEdit(inventory) {
+
+            $('#edittable').empty();  // clear previous listings
+
+
+            // populate the item view table
+            $('#edittable').append('<form id="itemupdate"><tr><td><strong>ID: </strong></td><td><input type="text" id="editid" name="id" readonly>' +
+                    '</td></tr><tr><td><strong>Product ID: </strong></td><td><input type="text" id="editpid" name="productId" readonly>' +
+                    '</td></tr><tr><td><strong>Product Number: </strong></td><td><input type="text" id="editpnum" name="productNumber" readonly>' +
+                    '</td></tr><tr><td><strong>Product Description: </strong></td><td><input type="text" id="editdesc" name="itemDescription">' +
+                    '</td></tr><tr><td><strong>Item Cost: </strong></td><td><input type="text" id="editcost" name="itemCost" >' +
+                    '</td></tr><tr><td><strong>Item Selling Price: </strong></td><td><input type="text" id="editprice" name="itemPrice" >' +
+                    '</td></tr><tr><td><strong>Item Count: </strong></td><td><input type="text" id="editcount" name="itemCount" >' +
+                    '</td></tr><tr><td><button type="submit" id="submitedit" value="Submit">Submit</button></tr></form>');
+
+
+            $('#editid').val(inventory.id);
+            $('#editpid').val(inventory.productId);
+            $('#editpnum').val(inventory.productNumber);
+
+
+        }
+
+        function update() {
+            $.ajax({
+                url: url + '/update',
+                dataType: 'json',
+                type: 'put',
+                contentType: 'application/json',
+                data: $('#itemupdate').serialize(),
+                success: function( data, textStatus, jQxhr ){
+
+                },
+                error: function( jqXhr, textStatus, errorThrown ){
+                    console.log( errorThrown );
+                }
+            });
+
 
         }
 
@@ -54,13 +165,11 @@
     <table>
         <form id="searchform">
         <tr><td>Search:<input type="text" id="searchtext"/></td><td></td></tr><br>
-        <tr><td>Field:
-            <select name="queryfield">
-                <option value="id">Item ID</option>
-                <option value="name" selected>Item Name</option>
-                <option value="number" selected>Product Number</option>
-            </select></td>
-            <td><button type="button" id="submitbutton" onclick="clickIt()">Search</button></td></tr><br>
+        <tr><td>
+            <input type="radio" name="queryfield" value="id" checked>ID<br>
+            <input type="radio" name="queryfield" value="pid">Product ID<br>
+            <input type="radio" name="queryfield" value="pnum" >Product Number<br></td>
+            <td><button type="button" id="submitbutton" onclick="clickIt(queryfield.value)">Search</button></td></tr><br>
         </form>
     </table>
 
@@ -71,48 +180,12 @@
     </div>
 
     <div id="itemedit">
+        <table id="edittable">
 
+        </table>
     </div>
 
     <script>
-
-        // documentation at: http://api.jquery.com/jquery.getjson/
-
-
-
-    function clickIt() {
-        $('#submitbutton').click(function() {
-            $.get( url + '/idSearch/' + $('#searchtext').val(), function( data ) {
-                displayInventory( data );
-            });
-            //if ($('#queryfield').val() == "id") {
-
-
-            }
-            /*else if ($('#queryfield').val() == "name") {
-
-                $.get( url + '/prodIdSearch/' + $('#searchtext').val(), function( data ) {
-                    displayInventory( data );
-                });
-
-            }
-            else if ($('#queryfield').val() == "number") {
-
-                $.get( url + '/prodNumberSearch/' + $('#searchtext').val(), function( data ) {
-                    displayInventory( data );
-                });
-
-            }
-            */
-
-
-        });
-    }
-
-
-        //function displayInventoryEdit(inventory) {  }
-
-        //function displayInventoryAdd(inventory) {  }
 
 
     </script>

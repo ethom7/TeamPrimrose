@@ -270,7 +270,7 @@ public class InventoryRS {
 
     // Updates the item in inventory by id number. Update one to all available fields.
     @PUT
-    @Produces({MediaType.TEXT_PLAIN})
+    @Produces({MediaType.APPLICATION_JSON})
     @Path("/update")
     public Response update(@FormParam("id") int id, @FormParam("productNumber") String productNumber,
                            @FormParam("itemDescription") String itemDescription, @FormParam("itemCost") double itemCost,
@@ -281,7 +281,7 @@ public class InventoryRS {
         String msg = null;
         if (id == 0) {
             msg = "A required id is missing.\n";
-            return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
+            return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.APPLICATION_JSON).build();
         }
 
         // Build a working check on the remaining parameters prior to update.
@@ -340,7 +340,9 @@ public class InventoryRS {
 
                         collection.findOneAndReplace(filter, invDoc);
                         msg = "update has been made.\n";  // update the message string to confirm update made.
-                        return Response.ok(msg, "text/plain").build();  // return the response
+
+
+                        return Response.status(Response.Status.OK).entity(msg).type(MediaType.APPLICATION_JSON).build();  // return the response
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -354,7 +356,7 @@ public class InventoryRS {
         }
 
         msg = "Something went wrong. Please try again.";
-        return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
+        return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.APPLICATION_JSON).build();
     }
 
     // Delete inventory item from the database collection by matched id
