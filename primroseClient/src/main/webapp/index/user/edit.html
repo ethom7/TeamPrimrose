@@ -57,20 +57,7 @@
 
 
         function passwordValidation(pass) {
-            // length 12 characters
-            // contain an upper and lower case letter a number and a special character
 
-
-
-            var strongPass = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{12,})");
-
-            if (strongPass.test(pass)) {
-                window.alert("Must be longer than 12 characters");
-
-            }
-            else {
-                window.alert("Good Password");
-            }
         }
 
         $(document).ready(fetch); // invoked after DOM is built and loaded
@@ -125,23 +112,32 @@
         (function($){
             function processForm( e ){
 
-                passwordValidation(document.getElementById("password").value);
+                // length 12 characters
+                // contain an upper and lower case letter a number and a special character
+                var pass = document.getElementById("password").value;
+                var strongPass = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{12,})");
 
-                $.ajax({
-                    url: url + '/update',
-                    dataType: 'json',
-                    type: 'put',
-                    contentType: 'application/x-www-form-urlencoded',
-                    data: $(this).serialize(),
-                    success: function( data, textStatus, jQxhr ){
+                if (!strongPass.test(pass)) {
+                    window.alert("Must be longer than 12 characters");
+                }
+                else {
+                    $.ajax({
+                        url: url + '/update',
+                        dataType: 'json',
+                        type: 'put',
+                        contentType: 'application/x-www-form-urlencoded',
+                        data: $(this).serialize(),
+                        success: function( data, textStatus, jQxhr ){
 
-                    },
-                    error: function( jqXhr, textStatus, errorThrown ){
-                        console.log( errorThrown );
-                    }
-                });
+                        },
+                        error: function( jqXhr, textStatus, errorThrown ){
 
-                e.preventDefault();
+                        }
+                    });
+
+                    e.preventDefault();
+                }
+
             }
 
             $('#userupdate').submit( processForm );
