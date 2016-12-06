@@ -50,7 +50,7 @@ public class EmployeeRS {
     }
 
 
-    // Get Inventory item by id from the database collection
+    // Get Employee item by id from the database collection
     @GET
     @Path("/json/{id: \\d+}")
     @Produces({MediaType.APPLICATION_JSON})
@@ -88,7 +88,7 @@ public class EmployeeRS {
         return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.APPLICATION_JSON).build();
     }
 
-    // Get all inventory from the database collection in plain text.
+    // Get all employees from the database collection in plain text.
     @GET
     @Path("/plain")
     @Produces({MediaType.TEXT_PLAIN})
@@ -98,11 +98,7 @@ public class EmployeeRS {
     }
 
 
-    /* Utility method will accept postalAddress as string along with a delimiter and populate a PostalAddress accordingly.
-    buildPostalAddress("123 Street Name;City Name;State Name;Zip Code", ";"); */
 
-    /* Utility method will accept emergencyContact as string along with a delimiter and populate an EmergencyContact accordingly.
-    buildEmergencyContact("This Contact Name;Relationship;Contact Phone number", ";"); */
 
     @POST
     @Produces({MediaType.TEXT_PLAIN})

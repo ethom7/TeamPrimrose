@@ -36,6 +36,8 @@ public class UserRS {
     // User Data Requirement 1.0.0
     public UserRS() {
         collection = MongoConnector.getInstance().getMongoCollection("user");
+
+        /*  2.1.0 and 2.2.0 for user access  */
         userLog = MongoConnector.getInstance().getMongoCollection("user-log");
     }
 
@@ -156,8 +158,9 @@ public class UserRS {
     }
 
 
-    // method for completing user login.
-    // User Access and Authentication Requirement 2.0.0
+    /* method for completing user login.
+    * User Access and Authentication Requirement 2.0.0
+    */
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/userLogin")
@@ -168,10 +171,11 @@ public class UserRS {
         String lastVisit = dt.toString();
 
 
-
+        /*  2.1.0 and 2.2.0 for user access  */
 
         if (userName == null || password == null) {
             msg = "A required field is missing.\n";
+            // 3.0.0 failed user access
             Document logEntry = new Document("timestamp", lastVisit)
                                     .append("ipAddress", ipAdd)
                                     .append("userName", userName)
@@ -187,6 +191,7 @@ public class UserRS {
 
         if (user == null) {
             msg = "Username and/or password do not match.\n";
+            // 3.0.0 failed user access
             Document logEntry = new Document("timestamp", lastVisit)
                     .append("ipAddress", ipAdd)
                     .append("userName", userName)
@@ -196,8 +201,11 @@ public class UserRS {
 
             return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
         }
+        // 4.1.0 Login to the application is restricted to current employees that have been setup within
+        // the authorized user database.
         else if (user.isActiveUser() == false) {
             msg = "User is not active.\n";
+            // 3.0.0 failed user access
             Document logEntry = new Document("timestamp", lastVisit)
                     .append("ipAddress", ipAdd)
                     .append("userName", userName)
@@ -207,7 +215,7 @@ public class UserRS {
             return Response.status(Response.Status.BAD_REQUEST). entity(msg).type(MediaType.TEXT_PLAIN).build();
         }
         else {
-
+            // successful user access
             Document logEntry = new Document("timestamp", lastVisit)
                     .append("ipAddress", ipAdd)
                     .append("userName", userName)

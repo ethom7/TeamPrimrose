@@ -13,6 +13,11 @@ import org.bson.Document;
 public class MongoConnector {
 
     private static final MongoConnector INSTANCE = new MongoConnector();  // final instance of itself
+
+    /*
+     * The following fields are specific to the launched instance relative to the service deployment and the datbase
+     */
+
     private static final String DBNAME = "primrose";  // private string for db name
     private final char[] password = {'T','e', 'a', 'm', 'P', 'r', 'i', 'm', 'r', 'o', 's', 'e', '!', '1'};
     private final String ipAddress = "192.168.1.211";
