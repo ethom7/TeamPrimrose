@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>View Manager</title>
+    <title>Search Employee</title>
 
     <link rel="stylesheet" href="styles.css">
 
@@ -24,22 +24,41 @@
 
         }
 
+        function clickIt(entry) {
+
+            // run the appropriate query based on radio selection
+            var address = url + '/json/' + $('#searchtext').val();
+            $.get(address, function (data) {
+                displayEmployee(data);
+            });
+
+
+
+
+
+        }
+
         function displayEmployee(employee) {
+
+            $('#itemview').empty();  // clear previous listings
+
+            // removed edit from functionality
 
             var pa = employee.postalAddress.street + '<br>' + employee.postalAddress.city + ", " + employee.postalAddress.state + " " + employee.postalAddress.zip;
             var ec = employee.emergencyContact.contactName + '<br>' + employee.emergencyContact.relation + '<br>' + employee.emergencyContact.emergencyPhoneNumber;
 
+            $('#employeeview').append();
 
-            $('#container').append('<li>' + employee.id + '</li>' + '<br>');
-            $('#container').append('<li>' + employee.firstName + " " + employee.middleName + " " + employee.lastName + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.socialSecurityNumber + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.dob + '</li>'+ '<br>');
-            $('#container').append('<li>' + pa + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.phoneNumber + '</li>'+ '<br>');
-            $('#container').append('<li>' + ec + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.hireDate + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.directReports + '</li>'+ '<br>');
-            $('#container').append('<li>' + employee.activeEmployee + '</li>'+ '<br>');
+            $('#container').append('<tr><td><strong>Employee ID: </strong></td><td>' + employee.id +
+                    '</td></tr><tr><td><strong>Name: </strong></td><td>' + employee.firstName + " " +
+                    employee.middleName + " " + employee.lastName + '</td></tr><tr><td><strong>Social Security Number/Tax ID:      </strong></td><td>' +
+                    employee.socialSecurityNumber + '</td></tr><tr><td><strong>Date of Birth: </strong></td><td>' +
+                    employee.dob + '</td></tr><tr><td><strong>Postal Address: </strong></td><td>' + pa +
+                    '</td></tr><tr><td><strong>Phone Number: </strong></td><td>' + employee.phoneNumber +
+                    '</td></tr><tr><td><strong>Emergency Contact: </strong></td><td>' + ec +
+                    '</td></tr><tr><td><strong>Hire Date: </strong></td><td>' + employee.hireDate +
+                    '</td></tr><tr><td><strong>Direct Reports: </strong></td><td>' + employee.directReports +
+                    '</td></tr><tr><td><strong>Active Employee: </strong></td><td>' + employee.activeEmployee + '</td></tr>');
         }
 
         // documentation at: http://api.jquery.com/jquery.getjson/
@@ -57,21 +76,38 @@
 
         }
 
-        $(document).ready(fetch); // invoked after DOM is built and loaded
+        //$(document).ready(fetch); // invoked after DOM is built and loaded
 
     </script>
 </head>
 <body>
 
-<div id="head">
-    <h2>Primrose: A CompanyA Webpage</h2>
-    <button type="button" onclick="logout()" id="logout">Logout</button>
-</div>
+    <div id="head">
+        <h2>Primrose: A CompanyA Webpage</h2>
+        <button type="button" onclick="logout()" id="logout">Logout</button>
+    </div>
 
-<div id="empDiv">
-    <ul id="container"></ul>
-</div>
+    <div id="searchcontainer">
+    <table>
+        <form id="searchform">
+            <tr><td>Employee's ID:<input type="text" id="searchtext"/></td><td></td></tr><br>
+            <tr><td><button type="button" id="submitbutton" onclick="clickIt(searchtext.value)">Search</button></td></tr><br>
+        </form>
+    </table>
+    </div>
 
-<tr><td><button type="button" onclick="go('/client/landing.html')" id="landing">Return to Landing</button></td></tr><br>
+    <div id="container">
+        <table  id="employeeview">
+
+        </table>
+    </div>
+
+    <script>
+
+    </script>
+
+
+
+    <tr><td><button type="button" onclick="go('/client/landing.html')" id="landing">Return to Landing</button></td></tr><br>
 
 </body>

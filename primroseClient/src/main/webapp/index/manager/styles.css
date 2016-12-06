@@ -8,6 +8,10 @@ h2 {
     float: left;
 }
 
+#searchcontainer {
+    clear: left;
+}
+
 #container {
     clear: left;
 }

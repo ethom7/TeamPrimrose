@@ -46,7 +46,7 @@
         function fetch() {
 
             var authSess = sessionStorage.getItem("auth-session");
-            var idSess = sessionStorage.getItem("id");
+            var idSess = sessionStorage.getItem("id");  // 4.2.0 Employees are only able to view or make changes to their own information.
             // url retrieve will populate from session storage for id
 
             if (authSess != null) {

@@ -147,9 +147,10 @@ public class User implements Comparable<User> {
     }
 
 
-    /* User Data Requirement 1.4.0 */
-    // To ensure unique username generation a 4 digit alphanumeric string will be appended.
-    // This will
+    /* User Data Requirement 1.3.0 username is comprised of first 2 letters of the first
+    * and first 6 of the last if available.
+    * 1.4.0 To ensure unique username generation a 4 digit alphanumeric string will be appended.
+    */
     public String generateUserName(String givenName) {
         String lower = givenName.toLowerCase();
         String[] names = lower.split(" ");  // separate out the names, last name defined as last word in string
@@ -212,7 +213,7 @@ public class User implements Comparable<User> {
         return user.toLowerCase();
     }
 
-    // method will return a timestamp as a string a set number of days from now. used for passwordExpiration
+    // method will return a timestamp as a string a set number of days from now. used for passwordExpiration 1.2.0
     public String setDaysAhead(int number) {
         DateTime now = new DateTime(DateTimeZone.UTC);
         DateTimeFormatter formatter = ISODateTimeFormat.dateTime();

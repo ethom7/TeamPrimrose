@@ -55,6 +55,24 @@
 
         }
 
+
+        function passwordValidation(pass) {
+            // length 12 characters
+            // contain an upper and lower case letter a number and a special character
+
+
+
+            var strongPass = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{12,})");
+
+            if (strongPass.test(pass)) {
+                window.alert("Must be longer than 12 characters");
+
+            }
+            else {
+                window.alert("Good Password");
+            }
+        }
+
         $(document).ready(fetch); // invoked after DOM is built and loaded
 
     </script>
@@ -101,9 +119,14 @@
             alert("update is successful");
         }
 
+
+
         // post call to send update data to server
         (function($){
             function processForm( e ){
+
+                passwordValidation(document.getElementById("password").value);
+
                 $.ajax({
                     url: url + '/update',
                     dataType: 'json',

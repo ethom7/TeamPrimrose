@@ -23,6 +23,22 @@ import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.exists;
 import static com.mongodb.client.model.Sorts.descending;
 
+/**
+ * @author Matt
+ *Requirement 1.0.0: The user is added to the database by an administrator.
+ *The admin app includes the functionality to add users and employees from a .csv
+ *file.  An administrator is also able to set a user as inactive using this tool.
+ *
+ * A temporary password is set for the user in method getUser(String employee)
+ * String tempPassword = "TeamPrimrose!1";  // string for temporary password
+ *
+ * Password is then encrypted then added to the new User object
+ *
+ * String hashed = BCrypt.hashpw(tempPassword, BCrypt.gensalt());  // encrypt password to store to the db collection
+ * User user = new User(employee, hashed);
+ *
+ */
+
 
 public class App {
 	
@@ -110,6 +126,10 @@ public class App {
 		
 		
 	}
+
+	/*
+	 * This method is run to setup the connection to the mongodb for the user and employee collections
+	 */
 	
 	private static void MongoSetup(myMongoObject mmO) {
 
@@ -126,6 +146,11 @@ public class App {
 		mmO.setUserCollection(userCollection);
 	}
 
+	/*
+	 * This method is responsible for requesting the path of a csv file from the admin,
+	 * and setting the inventory attributes from the file.
+	 */
+
 	private static void loadInventoryCSV() {
 
 		MongoDatabase db = MongoConnector.getInstance().getMongoDatabase();
@@ -140,7 +165,8 @@ public class App {
 
 		ArrayList<HashMap<String, String>> hm2 = ReadMethods.createListFromCSV(tenK, ",");  //readIn list
 
-		// corrected the listing to dob
+		// corrected the listing to id and productNumber
+		// String array to maintain dictionary access to the data from the csv file
 		String[] dataOrder = {"id", "productNumber", "itemDescription", "itemCost", "itemPrice", "itemCount"};	//this is correct data order
 		int nextIDAvail;
 		nextIDAvail = getNextInventoryId(0);
@@ -163,7 +189,7 @@ public class App {
 
 			try {
 				invString = mapper.writeValueAsString(inv);
-				Document invDoc = Document.parse(invString);  //employeeDoc holds all the values of employeeString
+				Document invDoc = Document.parse(invString);  //invDoc holds all the values of invString
 				inventoryCollection.insertOne(invDoc);
 
 			} catch (JsonProcessingException e) {
@@ -177,6 +203,12 @@ public class App {
 
 	}
 
+
+	/*
+	 * This method is responsible for requesting the path of a csv file from the admin,
+	 * and setting the employee attributes from the file.
+	 */
+
 	private static void loadCSV(myMongoObject mmO) {
 		
 		//TODO: prompt the user for the path and extension of their own csv file as String (tenK)
@@ -187,6 +219,7 @@ public class App {
 		ArrayList<HashMap<String, String>> hm2 = ReadMethods.createListFromCSV(tenK, ",");  //readIn list
 
 		// corrected the listing to dob
+		// String array to maintain dictionary access to the data from the csv file
 		String[] dataOrder = {"firstName", "middleName", "lastName", "socialSecurityNumber", "dob", "street", "city", "state", "zip", "phoneNumber", "hireDate", "contactName", "relation", "emergencyPhoneNumber"};	//this is correct data order
 		int nextIDAvail;
 		nextIDAvail = getNextId(0);
@@ -217,7 +250,11 @@ public class App {
 		}
 		
 	}
-	
+
+	/*
+	 * This method is responsible for creating and inserting the Documents which
+	 * are held within the Collection in the Mongo database.
+	 */
 	
 	private static void addToCollection(myMongoObject mmO) {
 		for (int i = 0; i < mmO.getEmployeeList().size()-1;i++) {
@@ -248,13 +285,16 @@ public class App {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("Users/employees have been added to the database");
+		System.out.println("Users/employees have been added to the database");  // success
 		System.out.println();
 	}
 	
 	
 	
-	
+	/*
+	 * This method is responsible for setting a user as inactive. Note that this
+	 * requires the user to be identified by the user/employee ID number.
+	 */
 	
 	private static void setInactive(myMongoObject mmO) throws JsonParseException, JsonMappingException, IOException {
 		System.out.print("To set a user as INACTIVE, please enter the user ID number: ");
@@ -313,8 +353,8 @@ public class App {
 	public static User getUser(String employee) {
 		String tempPassword = "TeamPrimrose!1";  // string for temporary password
 		String hashed = BCrypt.hashpw(tempPassword, BCrypt.gensalt());  // encrypt password to store to the db collection
-	   User user = new User(employee, hashed);
-	   return user;
+   		User user = new User(employee, hashed);
+		return user;
 	}
 	
 	

@@ -16,6 +16,8 @@
         }
 
         // set sessionStorage for id and auth-session then forward navigation to the landing page.
+        // employee and user data is loaded from sessionStorage that is only provided upon successful login
+        // along with the landing page url
         function storeResponse(data) {
             // store session timeout and id in the browser sessionStorage
             window.sessionStorage.setItem("id", data.id);
@@ -29,7 +31,7 @@
 
 
         // from https://github.com/diafygi/webrtc-ips
-        //get the IP addresses associated with the user
+        //get the IP addresses associated with the user to add to the user access log
         function getIPs(callback){
             var ip_dups = {};
             //compatibility for firefox and chrome
@@ -130,7 +132,7 @@ $('#submitbutton').click(function() { $.post(url + "/create/" + "givenName=" + d
 
 
 
-
+    /* 2.0.0 A username and password must be authenticated prior to application access. */
     // post call to send login data to server
     (function($){
         function processForm( e ){
